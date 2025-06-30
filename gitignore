@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+env
+.env
+venv/
+.DS_Store # For macOS
+
+# Streamlit specific
+.streamlit/secrets.toml # You will manage secrets on Streamlit Cloud
+
+# Large files / automatically generated
+resources/vectorstore/ # If your vectorstore is generated locally and large, exclude it.
+                       # Streamlit Cloud will regenerate it.
+.pytest_cache/
+*.log
