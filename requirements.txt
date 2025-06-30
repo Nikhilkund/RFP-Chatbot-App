@@ -11,3 +11,5 @@ langchain-groq
 huggingface-hub
 unstructured
 pydantic<2.0  # Compatibility with some LangChain components
+sentence-transformers
+pysqlite3 
