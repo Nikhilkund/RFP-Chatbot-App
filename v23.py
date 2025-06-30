@@ -24,14 +24,22 @@ import re
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# --- Start sqlite3 fix for Streamlit Cloud and ChromaDB ---
+try:
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+    # You can optionally add st.success here for local debugging, but remove for production
+    # st.success("pysqlite3 loaded successfully for ChromaDB!")
+except ImportError:
+    st.error("Error: 'pysqlite3' module not found. "
+             "This is often required for ChromaDB in deployment environments. "
+             "Please ensure 'pysqlite3' is listed in your requirements.txt and redeploy your app.")
+    # Depending on how critical sqlite3 is for the app's initial load,
+    # you might want to add more robust error handling or exit here.
+    # For now, we'll just show an error and let the app attempt to continue.
 # --- End sqlite3 fix ---
 
-# The rest of your existing imports would follow immediately after this block.
-# For example, your next line would be:
-from pathlib import Path
 # --- Import the Groq client directly ---
 from groq import Groq
 
@@ -272,11 +280,11 @@ def generate_answer(query):
     initialize_components("llama-3.3-70b-versatile")
 
     qa_chain = load_qa_with_sources_chain(llm, chain_type="stuff",
-                                         prompt=PROMPT,
-                                         document_prompt=EXAMPLE_PROMPT)
+                                          prompt=PROMPT,
+                                          document_prompt=EXAMPLE_PROMPT)
     chain = RetrievalQAWithSourcesChain(combine_documents_chain=qa_chain, retriever=vector_store.as_retriever(),
-                                        reduce_k_below_max_tokens=True, max_tokens_limit=8000,
-                                        return_source_documents=True)
+                                         reduce_k_below_max_tokens=True, max_tokens_limit=8000,
+                                         return_source_documents=True)
     
     result = chain.invoke({"question": query}, return_only_outputs=True)
     
@@ -864,7 +872,7 @@ def generate_new_pptx_option1(analysis_data, title_bg_info, second_page_bg_info,
                             current_description.append(line)
                     if current_area and current_description: # Add the last one
                         scope_parsed_data.append([current_area, "\n".join(current_description)])
-
+            
                 if not scope_parsed_data:
                     scope_parsed_data.append(["No specific areas found", "No detailed description extracted. Please refer to the full RFP document."])
 
@@ -1372,7 +1380,7 @@ def generate_docx_option1(analysis_data):
                                 doc.add_paragraph(str(item).strip(), style='List Bullet')
                     else:
                         p.add_run(str(value))
-            else: 
+            else:  
                 content = str(content_from_analysis)
                 if "\n" in content:
                     for line in content.split('\n'):
@@ -2023,28 +2031,28 @@ def generate_technical_proposal_docx(understanding_data, rfp_data):
         doc.add_heading("2.3. Architecture Design", level=2)
         arch_data = understanding_data["Architecture Design"]
         if isinstance(arch_data, dict) and "components" in arch_data:
-                      for comp_item in arch_data["components"]:
-                          if isinstance(comp_item, dict) and comp_item.get("name"):
-                              doc.add_paragraph().add_run(comp_item["name"]).bold = True
-                              for key, value in comp_item.items():
-                                  if key != "name" and value:
-                                      p = doc.add_paragraph(style='List Bullet')
-                                      p.add_run(f"{key.replace('_', ' ').title()}:").bold = True
-                                      p.add_run(f" {value}")
+                    for comp_item in arch_data["components"]:
+                        if isinstance(comp_item, dict) and comp_item.get("name"):
+                            doc.add_paragraph().add_run(comp_item["name"]).bold = True
+                            for key, value in comp_item.items():
+                                if key != "name" and value:
+                                    p = doc.add_paragraph(style='List Bullet')
+                                    p.add_run(f"{key.replace('_', ' ').title()}:").bold = True
+                                    p.add_run(f" {value}")
 
     # 2.4 Work Plan
     if "Work Plan (Detail)" in understanding_data:
         doc.add_heading("2.4. Work Plan", level=2)
         work_plan_data = understanding_data["Work Plan (Detail)"]
         if isinstance(work_plan_data, dict) and "phases" in work_plan_data:
-                      for phase_item in work_plan_data["phases"]:
-                          if isinstance(phase_item, dict) and phase_item.get("name"):
-                              doc.add_paragraph().add_run(phase_item["name"]).bold = True
-                              for key, value in phase_item.items():
-                                  if key != "name" and value:
-                                      p = doc.add_paragraph(style='List Bullet')
-                                      p.add_run(f"{key.replace('_', ' ').title()}:").bold = True
-                                      p.add_run(f" {value}")
+                    for phase_item in work_plan_data["phases"]:
+                        if isinstance(phase_item, dict) and phase_item.get("name"):
+                            doc.add_paragraph().add_run(phase_item["name"]).bold = True
+                            for key, value in phase_item.items():
+                                if key != "name" and value:
+                                    p = doc.add_paragraph(style='List Bullet')
+                                    p.add_run(f"{key.replace('_', ' ').title()}:").bold = True
+                                    p.add_run(f" {value}")
     doc.add_page_break()
 
     # --- Remaining Hardcoded Sections ---
