@@ -2,27 +2,25 @@
 streamlit==1.46.0
 
 # Document processing and parsing
-pypdf==5.7.0             # Recommending 'pypdf' as the actively maintained successor to PyPDF2
-# If you must use PyPDF2: # PyPDF2==3.0.1
-python-docx==1.2.0       # Corrected version, this was the issue last time
-python-pptx==1.0.0
-unstructured[pdf,docx,pptx]==0.14.4 # Essential for Unstructured loaders; include extras
-                                    # Note: 0.14.4 is the latest stable release on PyPI.
+pypdf==5.7.0
+python-docx==1.2.0
+**python-pptx==0.6.23** # Downgraded to be compatible with unstructured
+unstructured[pdf,docx,pptx]==0.14.4
 
 # LLM integration and LangChain components
 groq==0.28.0
-langchain==0.2.11        # Main LangChain package (often pulls in core, community)
+langchain==0.2.11
 langchain-community==0.3.26
 langchain-chroma==0.2.4
 langchain-groq==0.3.2
-langchain-core==0.3.66   # Explicitly including langchain-core as it's a foundational dependency
+langchain-core==0.3.66
 
 # Embeddings and Vector Store
-sentence-transformers==2.7.0 # For HuggingFaceEmbeddings (all-MiniLM-L6-v2)
-chromadb==0.5.0          # Chroma vector store backend
-pysqlite3-binary==0.6.1  # CRITICAL FIX for ChromaDB's sqlite3 version requirement on Streamlit Cloud
+sentence-transformers==2.7.0
+chromadb==0.5.0
+pysqlite3-binary==0.6.1
 
 # Utility and foundational packages
 python-dotenv==1.1.1
-huggingface-hub==0.23.0  # Common dependency for HuggingFace models/libraries
-pydantic==1.10.17        # Constrained for LangChain compatibility (pre-v2.0 Pydantic)
+huggingface-hub==0.23.0
+pydantic==1.10.17
