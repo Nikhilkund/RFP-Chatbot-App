@@ -24,7 +24,14 @@ import re
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# --- End sqlite3 fix ---
 
+# The rest of your existing imports would follow immediately after this block.
+# For example, your next line would be:
+from pathlib import Path
 # --- Import the Groq client directly ---
 from groq import Groq
 
