@@ -1,4 +1,4 @@
 poppler-utils
 tesseract-ocr
-sqlite3-dev
+libsqlite3-dev
 
