@@ -1,26 +1,13 @@
-# Streamlit application core
-streamlit==1.46.0
-
-# Document processing and parsing
-pypdf==5.7.0
-python-docx==1.2.0
-python-pptx==0.6.23 # Downgraded to be compatible with unstructured
-unstructured[pdf,docx,pptx]==0.14.4
-
-# LLM integration and LangChain components
-groq==0.28.0
-langchain==0.2.11
-langchain-community==0.3.26
-langchain-chroma==0.2.4
-langchain-groq==0.3.2
-langchain-core==0.3.66
-
-# Embeddings and Vector Store
-sentence-transformers==2.7.0
-chromadb==0.5.0
-pysqlite3-binary==0.6.1
-
-# Utility and foundational packages
-python-dotenv==1.1.1
-huggingface-hub==0.23.0
-pydantic==1.10.17
+streamlit
+python-docx
+PyPDF2
+python-pptx
+python-dotenv
+groq
+langchain
+langchain-community
+langchain-chroma
+langchain-groq
+huggingface-hub
+unstructured
+pydantic<2.0  # Compatibility with some LangChain components
