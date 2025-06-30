@@ -1,13 +1,14 @@
-streamlit==1.46.0
-python-dotenv==1.1.1
-pypdf==5.7.0
-**python-docx==1.2.0**
-python-pptx==1.0.0
-groq==0.28.0
-langchain-core==0.3.66
-langchain-chroma==0.2.4
-langchain-groq==0.3.2
-langchain-community==0.3.26
-unstructured[pdf,docx,pptx]==0.17.2
-sentence-transformers==4.1.0
-chromadb==1.0.13
+streamlit
+python-docx
+PyPDF2
+python-pptx
+python-dotenv
+groq
+langchain
+langchain-community
+langchain-chroma
+langchain-groq
+huggingface-hub
+unstructured
+pydantic<2.0  # Compatibility with some LangChain components
+
